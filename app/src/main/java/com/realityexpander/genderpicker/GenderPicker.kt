@@ -10,6 +10,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
@@ -131,7 +132,7 @@ fun GenderPicker(
             // Scale up
             scale(
                 scale = pathScaleFactor,
-                pivot = malePathBounds.topLeft
+                pivot = malePathBounds.topLeft  // Scale from top left (anchor point)
             ) {
                 drawPath(
                     path = malePath,
