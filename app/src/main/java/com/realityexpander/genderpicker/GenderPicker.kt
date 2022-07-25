@@ -87,6 +87,7 @@ fun GenderPicker(
                         offset = femaleTranslationOffset,
                         size = femalePathBounds.size * pathScaleFactor
                     )
+
                     if(selectedGender !is Gender.Male && transformedMaleRect.contains(it)) {
                         currentClickOffset = it
                         selectedGender = Gender.Male
