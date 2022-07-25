@@ -35,9 +35,11 @@ fun GenderPicker(
         mutableStateOf(Offset.Unspecified)
     }
 
+    // Get the SVG raw paths
     val malePathString = stringResource(id = R.string.male_path)
     val femalePathString = stringResource(id = R.string.female_path)
 
+    // Parse the SVG to Compose Path
     val malePath = remember {
         PathParser().parsePathString(malePathString).toPath()
     }
@@ -45,6 +47,7 @@ fun GenderPicker(
         PathParser().parsePathString(femalePathString).toPath()
     }
 
+    // Get bounding rectangle of the paths
     val malePathBounds = remember {
         malePath.getBounds()
     }
@@ -65,11 +68,11 @@ fun GenderPicker(
 
     val maleSelectionRadius = animateFloatAsState(
         targetValue = if(selectedGender is Gender.Male) 80f else 0f,
-        animationSpec = tween(durationMillis = 500)
+        animationSpec = tween(durationMillis = 1500)
     )
     val femaleSelectionRadius = animateFloatAsState(
         targetValue = if(selectedGender is Gender.Female) 80f else 0f,
-        animationSpec = tween(durationMillis = 500)
+        animationSpec = tween(durationMillis = 1500)
     )
 
     Canvas(
@@ -107,6 +110,7 @@ fun GenderPicker(
             y = center.y - pathScaleFactor * femalePathBounds.height / 2f
         )
 
+        // Calculate the center for the male & female paths
         val untransformedMaleClickOffset = if(currentClickOffset == Offset.Zero) {
             malePathBounds.center
         } else {
@@ -118,10 +122,12 @@ fun GenderPicker(
             (currentClickOffset - femaleTranslationOffset) / pathScaleFactor
         }
 
+        // MALE : move to center of screen
         translate(
             left = maleTranslationOffset.x,
             top = maleTranslationOffset.y
         ) {
+            // Scale up
             scale(
                 scale = pathScaleFactor,
                 pivot = malePathBounds.topLeft
@@ -130,6 +136,8 @@ fun GenderPicker(
                     path = malePath,
                     color = Color.LightGray
                 )
+
+                // Show the "shimmer" effect
                 clipPath(
                     path = malePath
                 ) {
@@ -146,10 +154,13 @@ fun GenderPicker(
             }
 
         }
+
+        // FEMALE: move to center of screen
         translate(
             left = femaleTranslationOffset.x,
             top = femaleTranslationOffset.y
         ) {
+            // Scale up
             scale(
                 scale = pathScaleFactor,
                 pivot = femalePathBounds.topLeft
@@ -158,6 +169,8 @@ fun GenderPicker(
                     path = femalePath,
                     color = Color.LightGray
                 )
+
+                // Show the "shimmer" effect
                 clipPath(
                     path = femalePath
                 ) {
